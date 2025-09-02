@@ -232,10 +232,8 @@ def vmem_write_addr (vaddr : virtaddr) (width : Nat) (data : (BitVec (8 * width)
   let write_success : Bool := true
   let vaddr := (bits_of_virtaddr vaddr)
   let (finished, i, write_success) ← (( do
-    let mut loop_vars := (finished, i, write_success)
-    repeat
-      let (finished, i, write_success) := loop_vars
-      loop_vars ← do
+    let loop_vars ← untilFuelM (fuel :=n) (fun (finished, i, write_success) => (pure finished)) (finished, i, write_success)
+      fun (finished, i, write_success) => do
         let offset := i
         let vaddr := (BitVec.addInt vaddr (offset *i bytes))
         let write_success ← (( do
@@ -270,7 +268,6 @@ def vmem_write_addr (vaddr : virtaddr) (width : Nat) (data : (BitVec (8 * width)
             (let i : Nat := (offset +i step)
             (finished, i))
         (pure (finished, i, write_success))
-    until (λ (finished, i, write_success) => finished) loop_vars
     (pure loop_vars) ) : SailME (Result Bool ExecutionResult) (Bool × Nat × Bool) )
   (pure (Ok write_success))
 
@@ -309,10 +306,8 @@ def vmem_read (rs : regidx) (offset : (BitVec 64)) (width : Nat) (acc : (AccessT
   let finished : Bool := false
   let vaddr := (bits_of_virtaddr vaddr)
   let (data, finished, i) ← (( do
-    let mut loop_vars := (data, finished, i)
-    repeat
-      let (data, finished, i) := loop_vars
-      loop_vars ← do
+    let loop_vars ← untilFuelM (fuel :=n) (fun (data, finished, i) => (pure finished)) (data, finished, i)
+      fun (data, finished, i) => do
         let offset := i
         let vaddr := (BitVec.addInt vaddr (offset *i bytes))
         let data ← (( do
@@ -341,7 +336,6 @@ def vmem_read (rs : regidx) (offset : (BitVec 64)) (width : Nat) (acc : (AccessT
             (let i : Nat := (offset +i step)
             (finished, i))
         (pure (data, finished, i))
-    until (λ (data, finished, i) => finished) loop_vars
     (pure loop_vars) ) : SailME (Result (BitVec (8 * width)) ExecutionResult)
     ((BitVec (8 * n * bytes)) × Bool × Nat) )
   (pure (Ok data))
@@ -358,4 +352,3 @@ def vmem_write (rs_addr : regidx) (offset : (BitVec 64)) (width : Nat) (data : (
   if ((check_misaligned vaddr width) : Bool)
   then (pure (Err (Memory_Exception (vaddr, (E_SAMO_Addr_Align ())))))
   else (vmem_write_addr vaddr width data acc aq rl res)
-
