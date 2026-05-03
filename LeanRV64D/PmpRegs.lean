@@ -205,7 +205,7 @@ open AtomicSupport
 open Architecture
 open AmocasOddRegisterReservedBehavior
 
-def sys_pmp_count : Int := 16
+def sys_pmp_count : Int := 0 -- SP1: No pmp regions enabled
 
 def sys_pmp_usable_count : Nat := 16
 
@@ -362,4 +362,3 @@ def pmpWriteAddrReg (n : Nat) (v : (BitVec 64)) : SailM Unit := do
           then (pure (pmpTORLocked (GetElem?.getElem! (← readReg pmpcfg_n) (n +i 1))))
           else (pure false)) (GetElem?.getElem! (← readReg pmpaddr_n) n) v))
   else (pure ())
-
