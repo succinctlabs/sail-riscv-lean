@@ -10886,13 +10886,13 @@ def plat_misaligned_access : GlobalMisalignedExceptions :=
     lrsc := AccessFault
     amo := AccessFault }
 
-def plat_have_clint : Bool := false -- SP1 model: no need for `plat_clint_base`.
+def plat_have_clint : Bool := false -- SP1 model: no need for `clint` checking.
 
 def plat_clint_base : physaddrbits := unwrapValue ((to_bits_checked (l := 64) (33554432 : Int)))
 
 def plat_clint_size : physaddrbits := unwrapValue ((to_bits_checked (l := 64) (786432 : Int)))
 
-def plat_have_sig : Bool := true
+def plat_have_sig : Bool := false -- SP1 model: no need for `sig` checking.
 
 def plat_sig_base : physaddrbits := unwrapValue ((to_bits_checked (l := 64) (201326592 : Int)))
 
