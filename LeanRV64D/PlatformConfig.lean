@@ -10886,7 +10886,7 @@ def plat_misaligned_access : GlobalMisalignedExceptions :=
     lrsc := AccessFault
     amo := AccessFault }
 
-def plat_have_clint : Bool := true
+def plat_have_clint : Bool := false -- SP1 model: no need for `plat_clint_base`.
 
 def plat_clint_base : physaddrbits := unwrapValue ((to_bits_checked (l := 64) (33554432 : Int)))
 
@@ -11029,4 +11029,3 @@ def pmp_write_only_reserved_behavior : PmpWriteOnlyReservedBehavior := PMP_Clear
 def xtvec_mode_reserved_behavior : XtvecModeReservedBehavior := Xtvec_Ignore
 
 def rv32zdinx_odd_register_reserved_behavior : RV32ZdinxOddRegisterReservedBehavior := Zdinx_Illegal
-
