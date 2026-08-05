@@ -219,9 +219,13 @@ open AtomicSupport
 open Architecture
 open AmocasOddRegisterReservedBehavior
 
-def sys_pmp_count : Int := 16
+-- SP1: no PMP regions enabled. Upstream default `16`; Sail config `memory.pmp.count`, whose
+-- declared type is `{0, 16, 64}` — 0 is a sanctioned value.
+def sys_pmp_count : Int := 0
 
-def sys_pmp_usable_count : Nat := 16
+-- SP1: kept equal to `sys_pmp_count`; upstream's own `ValidateConfig.check_pmp` rejects
+-- `usable_count > count`.
+def sys_pmp_usable_count : Nat := 0
 
 def sys_pmp_grain : Nat := 0
 
