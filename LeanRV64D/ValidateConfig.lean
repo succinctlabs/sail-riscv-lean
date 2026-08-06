@@ -841,12 +841,12 @@ def check_mem_layout (_ : Unit) : SailM Bool := do
       let pmas_ok ← do
         (pure (check_pma_regions (← readReg pma_regions) (zeros (n := 64)) (zeros (n := 64))
             check_opts false))
-      let clint_supported : Bool := true
+      let clint_supported : Bool := false
       let clint_ok ← do
         (pure ((not clint_supported) || (← (within_configured_pma_memory "CLINT (platform.clint)"
                 (some IOMemory) (← (to_bits_checked (l := 64) (33554432 : Int)))
                 (← (to_bits_checked (l := 64) (786432 : Int)))))))
-      let sig_supported : Bool := true
+      let sig_supported : Bool := false
       let sig_ok ← do
         (pure ((not sig_supported) || (← (within_configured_pma_memory
                 "simple interrupt generator (platform.simple_interrupt_generator)" (some IOMemory)

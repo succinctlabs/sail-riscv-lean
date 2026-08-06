@@ -11018,13 +11018,13 @@ def plat_mstatus_legal_fs : ExtContextPolicy := ExtContext_FourState
 
 def plat_mstatus_legal_vs : ExtContextPolicy := ExtContext_FourState
 
-def plat_have_clint : Bool := true
+def plat_have_clint : Bool := false
 
 def plat_clint_base : physaddrbits := unwrapValue ((to_bits_checked (l := 64) (33554432 : Int)))
 
 def plat_clint_size : physaddrbits := unwrapValue ((to_bits_checked (l := 64) (786432 : Int)))
 
-def plat_have_sig : Bool := true
+def plat_have_sig : Bool := false
 
 def plat_sig_base : physaddrbits := unwrapValue ((to_bits_checked (l := 64) (201326592 : Int)))
 
