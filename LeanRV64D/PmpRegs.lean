@@ -219,9 +219,9 @@ open AtomicSupport
 open Architecture
 open AmocasOddRegisterReservedBehavior
 
-def sys_pmp_count : Int := 0
+def sys_pmp_count : Int := 16
 
-def sys_pmp_usable_count : Nat := 0
+def sys_pmp_usable_count : Nat := 16
 
 def sys_pmp_grain : Nat := 0
 
